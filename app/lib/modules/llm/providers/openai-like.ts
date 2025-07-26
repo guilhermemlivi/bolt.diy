@@ -26,25 +26,20 @@ export default class OpenAILikeProvider extends BaseProvider {
       defaultBaseUrlKey: 'OPENAI_LIKE_API_BASE_URL',
       defaultApiTokenKey: 'OPENAI_LIKE_API_KEY',
     });
-
+    
     if (!baseUrl || !apiKey) {
       return [];
     }
-
-    const response = await fetch(`${baseUrl}/models`, {
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
+    
+    // Retorna diretamente o deployment do Azure OpenAI
+    return Promise.resolve([
+      {
+        name: 'gpt-4o-nobrainderapp',
+        label: 'Azure GPT-4o (Custom)',
+        provider: this.name,
+        maxTokenAllowed: 8000,
       },
-    });
-
-    const res = (await response.json()) as any;
-
-    return res.data.map((model: any) => ({
-      name: model.id,
-      label: model.id,
-      provider: this.name,
-      maxTokenAllowed: 8000,
-    }));
+    ]);
   }
 
   getModelInstance(options: {
