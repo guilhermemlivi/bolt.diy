@@ -32,6 +32,7 @@ export default class OpenAILikeProvider extends BaseProvider {
     }
     
     // Retorna diretamente o deployment do Azure OpenAI
+    // Force rebuild - v1.0.1
     return Promise.resolve([
       {
         name: 'gpt-4o-nobrainderapp',
