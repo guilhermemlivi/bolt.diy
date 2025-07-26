@@ -40,6 +40,12 @@ export default class AnthropicProvider extends BaseProvider {
     { name: 'claude-3-opus-latest', label: 'Claude 3 Opus', provider: 'Anthropic', maxTokenAllowed: 8000 },
     { name: 'claude-3-sonnet-20240229', label: 'Claude 3 Sonnet', provider: 'Anthropic', maxTokenAllowed: 8000 },
     { name: 'claude-3-haiku-20240307', label: 'Claude 3 Haiku', provider: 'Anthropic', maxTokenAllowed: 8000 },
+    {
+      name: 'test-azure-model',
+      label: 'Teste Azure Model (NoBrainerApp)',
+      provider: 'Anthropic',
+      maxTokenAllowed: 8000,
+    },
   ];
 
   async getDynamicModels(
@@ -68,7 +74,6 @@ export default class AnthropicProvider extends BaseProvider {
 
     const res = (await response.json()) as any;
     const staticModelIds = this.staticModels.map((m) => m.name);
-
     const data = res.data.filter((model: any) => model.type === 'model' && !staticModelIds.includes(model.id));
 
     return data.map((m: any) => ({
@@ -86,6 +91,7 @@ export default class AnthropicProvider extends BaseProvider {
     providerSettings?: Record<string, IProviderSetting>;
   }) => LanguageModelV1 = (options) => {
     const { apiKeys, providerSettings, serverEnv, model } = options;
+
     const { apiKey } = this.getProviderBaseUrlAndKey({
       apiKeys,
       providerSettings,
@@ -93,6 +99,7 @@ export default class AnthropicProvider extends BaseProvider {
       defaultBaseUrlKey: '',
       defaultApiTokenKey: 'ANTHROPIC_API_KEY',
     });
+
     const anthropic = createAnthropic({
       apiKey,
       headers: { 'anthropic-beta': 'output-128k-2025-02-19' },
