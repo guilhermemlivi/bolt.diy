@@ -12,36 +12,23 @@ export default class OpenAILikeProvider extends BaseProvider {
     apiTokenKey: 'OPENAI_LIKE_API_KEY',
   };
 
-  staticModels: ModelInfo[] = [];
+  staticModels: ModelInfo[] = [
+  {
+    name: 'gpt-4o-nobrainderapp',
+    label: 'Azure GPT-4o (Custom)',
+    provider: this.name,
+    maxTokenAllowed: 8000,
+  },
+];
 
   async getDynamicModels(
-    apiKeys?: Record<string, string>,
-    settings?: IProviderSetting,
-    serverEnv: Record<string, string> = {},
-  ): Promise<ModelInfo[]> {
-    const { baseUrl, apiKey } = this.getProviderBaseUrlAndKey({
-      apiKeys,
-      providerSettings: settings,
-      serverEnv,
-      defaultBaseUrlKey: 'OPENAI_LIKE_API_BASE_URL',
-      defaultApiTokenKey: 'OPENAI_LIKE_API_KEY',
-    });
-    
-    if (!baseUrl || !apiKey) {
-      return [];
-    }
-    
-    // Retorna diretamente o deployment do Azure OpenAI
-    // Force rebuild - v1.0.1
-    return Promise.resolve([
-      {
-        name: 'gpt-4o-nobrainderapp',
-        label: 'Azure GPT-4o (Custom)',
-        provider: this.name,
-        maxTokenAllowed: 8000,
-      },
-    ]);
-  }
+  apiKeys?: Record<string, string>,
+  settings?: IProviderSetting,
+  serverEnv: Record<string, string> = {},
+): Promise<ModelInfo[]> {
+  // Função desabilitada - usando staticModels - v1.0.2
+  return [];
+}
 
   getModelInstance(options: {
     model: string;
